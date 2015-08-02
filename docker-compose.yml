@@ -1,0 +1,7 @@
+middleman:
+  build: .
+  ports:
+    - "4567:4567"
+  volumes:
+    - ".:/src"
+  command: ["server", "--force-polling"]
