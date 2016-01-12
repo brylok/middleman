@@ -1,13 +1,22 @@
-FROM debian:8.1
+FROM ubuntu:15.10
 
 EXPOSE 4567
 
 RUN apt-get update && \
   apt-get install -y \
-  nodejs \
+  curl \
+  software-properties-common && \
+  curl -sL https://deb.nodesource.com/setup_5.x | bash - && \
+  apt-add-repository ppa:brightbox/ruby-ng && \
+  apt-get update && \
+  apt-get install -y \
   build-essential \
-  ruby-dev \
-  rubygems
+  git \
+  ruby2.2 \
+  ruby2.2-dev \
+  rubygems \
+  nodejs \
+  zlib1g-dev
 
 RUN gem install middleman
 
@@ -18,6 +27,5 @@ RUN middleman init
 
 VOLUME /src
 
-RUN bundle install
-
-ENTRYPOINT ["middleman"]
+ENTRYPOINT ["bundle", "exec", "middleman"]
+CMD ["server"]
